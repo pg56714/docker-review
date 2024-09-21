@@ -1,0 +1,10 @@
+services:
+    laravel:
+        image: laravel:latest
+        container_name: laravel
+        stdin_open: true
+        tty: true
+        ports:
+            - "8000:8000"
+# docker-compose up -d
+# docker run --rm -it -p 8000:8000 laravel

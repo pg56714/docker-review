@@ -1,0 +1,118 @@
+# # 與以下指令相同
+# # docker run -it --rm -v \$PWD:/source -w /source node:14-alpine
+
+# # 定義 service 的區塊，一個 service 設定可以用來啟動多個 container
+# services:
+#   # 定義一個叫 npm 的 service
+#   npm:
+#     image: node:14-alpine
+#     stdin_open: true
+#     tty: true
+#     working_dir: /source
+#     volumes:
+#       - .:/source
+# # 啟動 container
+# # docker-compose run --rm npm npm -v
+
+# ---
+
+# # 與以下指令相同
+# docker run -it --rm -v $PWD:/source -w /source php:7.1-alpine vendor/bin/phpunit
+# docker run -it --rm -v $PWD:/source -w /source php:7.2-alpine vendor/bin/phpunit
+# docker run -it --rm -v $PWD:/source -w /source php:7.3-alpine vendor/bin/phpunit
+# docker run -it --rm -v $PWD:/source -w /source php:7.4-alpine vendor/bin/phpunit
+
+# services:
+#   php71: &basic
+#     image: php:7.1-alpine
+#     stdin_open: true
+#     tty: true
+#     working_dir: /source
+#     volumes:
+#       - .:/source
+#     command: vendor/bin/phpunit
+#   php72:
+#     <<: *basic
+#     image: php:7.2-alpine
+#   php73:
+#     <<: *basic
+#     image: php:7.3-alpine
+#   php74:
+#     <<: *basic
+#     image: php:7.4-alpine
+#   php80:
+#     <<: *basic
+#     image: php:8.0.0beta4-alpine
+# # 啟動 container
+# # docker-compose run --rm php71
+# # docker-compose run --rm php72
+# # docker-compose run --rm php73
+# # docker-compose run --rm php74
+# # docker-compose run --rm php80
+
+# # 同時啟動所有 container
+# # docker-compose up
+
+# ---
+
+# # # 與以下指令相同
+# # # Terminal 1
+# # docker run --rm -it --name db -e MYSQL_ROOT_PASSWORD=pass -e MYSQL_DATABASE=some percona
+
+# # # Terminal 2
+# # docker run --rm -it --link db -p 8080:80 phpmyadmin
+
+# services:
+#   database:
+#     image: percona
+#     environment:
+#       MYSQL_ROOT_PASSWORD: pass
+#       MYSQL_DATABASE: some
+
+#   phpmyadmin:
+#     image: phpmyadmin
+#     ports:
+#       - 8080:80
+#     links:
+#       - database:db
+# # 背景執行
+# # docker-compose up -d
+
+# # 查看 log
+# # docker-compose logs -f phpmyadmin
+
+# # # 停止並移除所有 container
+# # # docker-compose down
+
+# # docker network ls
+
+services:
+  database:
+    image: percona
+    environment:
+      MYSQL_ROOT_PASSWORD: pass
+      MYSQL_DATABASE: some
+
+  phpmyadmin:
+    image: phpmyadmin
+    ports:
+      - 8080:80
+    links:
+      - database:db
+
+  wordpress:
+    image: wordpress
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_PASSWORD: pass
+      WORDPRESS_DB_NAME: some
+    ports:
+      - 8081:80
+    links:
+      - database:db
+# # 背景執行
+# docker-compose up -d
+
+# # 查看 wordpress 的 log
+# docker-compose logs wordpress
