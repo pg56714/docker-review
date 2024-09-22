@@ -8,4 +8,6 @@ mingw32-make file name change to make
 
 ## Learning Docker Article(Chinese)
 
-[Learn](https://ithelp.ithome.com.tw/articles/10243618)
+[Learn1](https://ithelp.ithome.com.tw/articles/10243618)
+
+[Learn2](https://ithelp.ithome.com.tw/articles/10247679)
