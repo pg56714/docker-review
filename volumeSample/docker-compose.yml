@@ -1,0 +1,12 @@
+web:
+  image: nginx
+  working_dir: /usr/share/nginx/html
+  volumes_from:
+    - php
+
+php:
+  image: php-fpm
+  working_dir: /usr/share/nginx/html
+  volumes:
+    - .:/usr/share/nginx/html
+    - /usr/share/nginx/html
